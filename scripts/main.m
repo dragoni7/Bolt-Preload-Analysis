@@ -7,7 +7,7 @@
 clear;
 clc;
 tdata = [1 2 3 4 5 6 7 8 9 10 11 12 13]; % time
-force = [500 500 500 495 494 490 482 471 458 441 423 402 377 344]; %force
+force = [500 500 500 495 494 490 482 471 458 441 423 402 377 344]; %force or y
 c2_guess = 50; % guess the coefficient
 c2 = lsquarecurvefit(@(c2,t)FittingFunction(c2,t), c2_guess, tdata, force); %curve fit the coefficient
 
