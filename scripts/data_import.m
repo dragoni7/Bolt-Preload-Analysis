@@ -6,4 +6,14 @@ addpath(".\data");
 
 % Example:
 T = readtable('dummy.csv');
-T % display the csv file
+tdata = table2array(T(1,:));
+force = table2array(T(2,:));
+disp(tdata) % display the first row, time
+disp(force) % display the second row, force
+
+% From Python:
+data = py.importlib.import_module('data_import_python'); % If preprocessing is needed, data can be imported from python
+py.importlib.reload(data);
+x = py.numpy.array(py.data_import_python.x);
+double(x)
+plot([0, 1, 2, 3, 4, 5], double(x))
