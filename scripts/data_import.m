@@ -8,6 +8,8 @@ addpath(".\data");
 T = readtable('dummy.csv');
 tdata = table2array(T(1,:));
 force = table2array(T(2,:));
+% From here, tdata and force will be passed to the data analysis script.
+
 disp(tdata) % display the first row, time
 disp(force) % display the second row, force
 
@@ -16,4 +18,4 @@ data = py.importlib.import_module('data_import_python'); % If preprocessing is n
 py.importlib.reload(data);
 x = py.numpy.array(py.data_import_python.x);
 double(x)
-plot([0, 1, 2, 3, 4, 5], double(x))
+plot([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14], double(x))

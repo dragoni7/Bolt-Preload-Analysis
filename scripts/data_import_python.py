@@ -1,4 +1,10 @@
 import matlab
 import numpy as np
+import pandas as pd
 
-x = np.array([1.0, 2.0, 3.0, 4.0, 5.0, 6.0])
+path = str(__file__)
+path = path.split("data_import_python.py")
+path = path[0].replace('\\', '/')
+
+csv = pd.read_csv(path + "/data/dummy.csv")
+x = csv.to_numpy()
