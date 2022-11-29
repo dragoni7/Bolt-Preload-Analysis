@@ -1,37 +1,57 @@
 clear;
 clc;
-tdata = [1 2 3 4 5 6 7 8 9 10 11 12 13, 14]; % xData, time
-force = [500 500 500 495 494 490 482 471 458 441 423 402 377 344]; % yData, force
-c2_guess = 50; % guess the coefficient
-c2 = lsqcurvefit(@(c2,t)FittingFunction(c2,t), c2_guess, tdata(:), force(:)); % curve fit the coefficient
+
+ 
+
+I = 0; %initial
+S = 270; %step
+N = 12; %number of values
+Time_data = I+S*(0:N-1); % independent variable, # seconds
+force = [ 100 ; 97.8 ; 97 ; 96.7 ; 96.6 ; 96.55 ; 96.50 ; 96.45 ; 96.40; 96.35; 96.30; 96.25] ; % dependent variable, experimental data
+c_guess = [1; 100] ; %init guess for c1 and c2, the parameters to be fitted
+c = lsqcurvefit(@(c,t)FittingFunction(c,t),c_guess,Time_data,force)
+
+ 
+
 
 figure %plot the data as well as the fitted function
 hold 'on'
-plot(tdata, force, 'ko', 'DisplayName','data')
-plot_times = linspace(0,max(tdata),14) ;
-plot(plot_times, FittingFunction(c2,plot_times),'-r','DisplayName','fit');
-xlabel('time'), ylabel('Force')
+plot(Time_data, force, 'ko', 'DisplayName','data')
+plot_times = linspace(0,max(Time_data),100) ;
+plot(plot_times, FittingFunction(c,plot_times),'-r','DisplayName','fit') ;
+xlabel('time(sec)'), ylabel('Force(N)'), legend('Location','South');
 
-% create the ODE solution by using RK4 
-function F = FittingFunction(c2, tdata)
-tspan = [0 14];
-InitConds = [0 0] ; % assume initial displacement and velocity are 0
-[t_atTdata,y_atTdata] = ode45(@(t,y)ODEsystem(t,y,c2),tspan,InitConds);
-f = y_atTdata(:,1); % return y only, not y and y'
-F = f(1:14); % the length of this vector is longer than ydata, so trim it. Unknown if this is detrimental, therefore temp fix.
+ 
+
+function F = FittingFunction(c,Time_data)
+tspan = Time_data ;
+InitConds = [1;1]; % initially, no displacement or velocity
+[~,y_atTdata] = ode45(@(t,y)SysOfDiffEqns(t,y,c),tspan,InitConds) ;
+%F = y_atTdata(:,1) ; %return y only, not y and y'
+displacement = y_atTdata(:,1) ;
+velocity = y_atTdata(:,2);
+%F=ma=-bv-ky
+F = -c(2).*displacement-c(1).*velocity;
 end
 
-function Y = ODEsystem(t,y,c2)
+ 
 
-% assume that c1 (damping coefficeint) is 0 - all terms affect stiffness
-% x''+c1*x'+c2*x=F  => x'' + 0*x' + c2*x = F => F = x'' + c2*x
-% for homogenous solution: x'' + c2*x = 0 => x'' = -c2*x
-% let x1' = x2 =>
-% equation 1: x1' = x2
-% equation 2: x2' = -c2*x1
-% X(1) = X(2)
-% X(2) = -c2*X(1)
+function Y = SysOfDiffEqns(~,y,c)
+%sum of forces F=ma=-bv-ky, F=0 for fixed object
+%divide by m, c1 = b/m and c2 = k/m
+%y''+c1*y'+c2*y = 0
+%y''=-c1*y'-c2*y
+%y1 = y = displacement
+%y2 = y'= velocity
+
+ 
+
+% SUBSTITUTE: 
+%Y(1) = y' = y2
+%Y(2) = y2'= y''
+
+Y = zeros(2,1);
 Y(1) = y(2);
-Y(2) = -c2*y(1);
-Y = [Y(1); Y(2)];
+Y(2) = -c(1)*y(2)-c(2)*y(1);
+
 end
