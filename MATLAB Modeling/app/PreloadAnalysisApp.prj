@@ -1,0 +1,118 @@
+<deployment-project plugin="plugin.ezdeploy" plugin-version="1.0">
+  <configuration file="C:\Users\samso\Desktop\Bolt Preload Analysis\bolt-preload-analysis\app\PreloadAnalysisApp.prj" location="C:\Users\samso\Desktop\Bolt Preload Analysis\bolt-preload-analysis\app" name="PreloadAnalysisApp" target="target.ezdeploy.standalone" target-name="Application Compiler">
+    <param.appname>PreloadAnalysisApp</param.appname>
+    <param.icon>${PROJECT_ROOT}\PreloadAnalysisApp_resources\icon.ico</param.icon>
+    <param.icons>
+      <file>${PROJECT_ROOT}\PreloadAnalysisApp_resources\icon_48.png</file>
+      <file>${PROJECT_ROOT}\PreloadAnalysisApp_resources\icon_32.png</file>
+      <file>${PROJECT_ROOT}\PreloadAnalysisApp_resources\icon_24.png</file>
+      <file>${PROJECT_ROOT}\PreloadAnalysisApp_resources\icon_16.png</file>
+    </param.icons>
+    <param.version>1.0</param.version>
+    <param.authnamewatermark>Samuel Gibson</param.authnamewatermark>
+    <param.email />
+    <param.company />
+    <param.summary>Application intended for analysis of experimental bolt preload loss data.</param.summary>
+    <param.description />
+    <param.screenshot>${PROJECT_ROOT}\assets\WSU-Symbol.png</param.screenshot>
+    <param.guid />
+    <param.installpath.string>\PreloadAnalysisApp\</param.installpath.string>
+    <param.installpath.combo>option.installpath.programfiles</param.installpath.combo>
+    <param.logo />
+    <param.install.notes />
+    <param.target.install.notes />
+    <param.intermediate>${PROJECT_ROOT}\PreloadAnalysisApp\for_testing</param.intermediate>
+    <param.files.only>${PROJECT_ROOT}\PreloadAnalysisApp\for_redistribution_files_only</param.files.only>
+    <param.output>${PROJECT_ROOT}\PreloadAnalysisApp\for_redistribution</param.output>
+    <param.logdir>${PROJECT_ROOT}\PreloadAnalysisApp</param.logdir>
+    <param.enable.clean.build>false</param.enable.clean.build>
+    <param.user.defined.mcr.options />
+    <param.target.type>subtarget.standalone</param.target.type>
+    <param.support.packages />
+    <param.web.mcr>true</param.web.mcr>
+    <param.package.mcr>false</param.package.mcr>
+    <param.no.mcr>false</param.no.mcr>
+    <param.web.mcr.name>PreloadAnalysisAppInstaller_web</param.web.mcr.name>
+    <param.package.mcr.name>MyAppInstaller_mcr</param.package.mcr.name>
+    <param.no.mcr.name>MyAppInstaller_app</param.no.mcr.name>
+    <param.windows.command.prompt>true</param.windows.command.prompt>
+    <param.create.log>false</param.create.log>
+    <param.log.file />
+    <param.native.matlab>false</param.native.matlab>
+    <param.checkbox>false</param.checkbox>
+    <param.example />
+    <param.help.text>Syntax 
+	  -? 
+	 
+ Input Arguments 
+	 -?  print help on how to use the application 
+	 input arguments</param.help.text>
+    <unset>
+      <param.version />
+      <param.email />
+      <param.company />
+      <param.description />
+      <param.guid />
+      <param.installpath.string />
+      <param.installpath.combo />
+      <param.logo />
+      <param.install.notes />
+      <param.target.install.notes />
+      <param.intermediate />
+      <param.files.only />
+      <param.output />
+      <param.logdir />
+      <param.enable.clean.build />
+      <param.user.defined.mcr.options />
+      <param.target.type />
+      <param.support.packages />
+      <param.web.mcr />
+      <param.package.mcr />
+      <param.no.mcr />
+      <param.package.mcr.name />
+      <param.no.mcr.name />
+      <param.windows.command.prompt />
+      <param.create.log />
+      <param.log.file />
+      <param.native.matlab />
+      <param.checkbox />
+      <param.example />
+    </unset>
+    <fileset.main>
+      <file>${PROJECT_ROOT}\PreloadAnalysisApp.mlapp</file>
+    </fileset.main>
+    <fileset.resources />
+    <fileset.package>
+      <file>${PROJECT_ROOT}\Dataset.m</file>
+    </fileset.package>
+    <fileset.depfun>
+      <file>${PROJECT_ROOT}\assets\open-folder.png</file>
+      <file>${PROJECT_ROOT}\Dataset.m</file>
+    </fileset.depfun>
+    <build-deliverables>
+      <file location="${PROJECT_ROOT}\PreloadAnalysisApp\for_testing" name="splash.png" optional="false">C:\Users\samso\Desktop\Bolt Preload Analysis\bolt-preload-analysis\app\PreloadAnalysisApp\for_testing\splash.png</file>
+      <file location="${PROJECT_ROOT}\PreloadAnalysisApp\for_testing" name="PreloadAnalysisApp.exe" optional="false">C:\Users\samso\Desktop\Bolt Preload Analysis\bolt-preload-analysis\app\PreloadAnalysisApp\for_testing\PreloadAnalysisApp.exe</file>
+      <file location="${PROJECT_ROOT}\PreloadAnalysisApp\for_testing" name="readme.txt" optional="true">C:\Users\samso\Desktop\Bolt Preload Analysis\bolt-preload-analysis\app\PreloadAnalysisApp\for_testing\readme.txt</file>
+    </build-deliverables>
+    <workflow />
+    <matlab>
+      <root>C:\Program Files\MATLAB\R2022b</root>
+      <toolboxes />
+    </matlab>
+    <platform>
+      <unix>false</unix>
+      <mac>false</mac>
+      <windows>true</windows>
+      <win2k>false</win2k>
+      <winxp>false</winxp>
+      <vista>false</vista>
+      <linux>false</linux>
+      <solaris>false</solaris>
+      <osver>10.0</osver>
+      <os32>false</os32>
+      <os64>true</os64>
+      <arch>win64</arch>
+      <matlab>true</matlab>
+    </platform>
+  </configuration>
+</deployment-project>

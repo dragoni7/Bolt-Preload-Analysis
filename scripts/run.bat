@@ -1,1 +1,0 @@
-matlab -nosplash -r "try; run('main.m'); catch; end;
