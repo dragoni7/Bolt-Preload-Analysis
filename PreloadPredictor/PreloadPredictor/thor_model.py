@@ -5,6 +5,7 @@ __author__      = "Samuel Gibson"
 import numpy as np
 from multipledispatch import dispatch
 
+# Use placeholder MATLAB model for now...
 __coefficients = {
     "a": float(9.802),
     "b": float(-0.099),
@@ -19,34 +20,37 @@ _PARAMETER4 = "parameter4"
 
 __values = {
     _SEALANT: {
-        "v1": float(1.001),
-        "v2": float(1.002),
-        "v3": float(1.003)
+        "v1": float(2.0),
+        "v2": float(3.0),
+        "v3": float(5.0)
     },
     _PLATE_MATERIAL: {
-        "aluminum": float(1.1),
-        "carbon fiber": float(1.2),
-        "v3": float(1.3)
+        "aluminum": float(5.0),
+        "carbon fiber": float(6.2),
+        "v3": float(10.0)
     },
     _PARAMETER3: {
-        "v1": float(1.01),
-        "v2": float(1.02),
-        "v3": float(1.03)
+        "v1": float(1.1),
+        "v2": float(1.2),
+        "v3": float(1.3)
     },
     _PARAMETER4: {
-        "v1": float(-1.0),
-        "v2": float(-1.0),
-        "v3": float(-1.0)
+        "v1": float(1.0),
+        "v2": float(2.0),
+        "v3": float(3.0)
     }
 }
 
+'''Returns a list of values for the given parameter'''
 def get_values(name):
     return list(__values[name].keys())
 
+'''Takes an ndarray of x values and calculates the corresponding y values, using our model. Returns an ndarray.'''
 @dispatch(np.ndarray)
 def exp_model(plot_x):
     return (__coefficients["a"]*np.exp(__coefficients["b"] * plot_x)) + (__coefficients["c"]*np.exp(__coefficients["d"] * plot_x))
 
+'''Takes an ndarray of x values and calculates the corresponding y values, using our model. Applies a modifier to each coefficient of the model for a,b,c,d. Returns an ndarray.'''
 @dispatch(np.ndarray, str, str, str, str)
 def exp_model(plot_x, a, b, c, d):
     a_new = __coefficients["a"] * __values[_SEALANT][a]

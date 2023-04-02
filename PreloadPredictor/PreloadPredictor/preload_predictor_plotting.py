@@ -13,11 +13,10 @@ def reset_plot():
     plot_y = model.exp_model(plot_x)
     fig = plt.figure(figsize=__fig_size)
     plt.ylim([0,100])
-    plt.axhline(y=60, color='r', linestyle='-')
+    plt.axhline(y=50, color='r', linestyle='-')
     plt.plot(plot_x, plot_y,'-g', label="Thor Model")
     plt.xlabel("Time")
     plt.ylabel("% Force")
-    
     plt.legend()
     return fig
 
@@ -26,8 +25,9 @@ def plot(a, b, c, d):
     plot_y = model.exp_model(plot_x, a, b, c, d)
     fig = plt.figure(figsize=__fig_size)
     plt.ylim([0,100])
-    plt.axhline(y=60, color='r', linestyle='-')
+    plt.axhline(y=50, color='r', linestyle='-')
     plt.plot(plot_x, plot_y,'-g', label="Thor Model")
     plt.xlabel("Time")
     plt.ylabel("% Force")
+    plt.legend()
     return fig

@@ -22,7 +22,7 @@ class App(ctk.CTk):
         self.grid_columnconfigure((2, 5), weight=0)
         self.grid_rowconfigure((0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10), weight=1)
         
-        # configure and draw empty plot
+        # configure and draw base plotting
         self.draw_plot(plotting.reset_plot())
 
         # create sidebar frame with widgets
@@ -34,7 +34,7 @@ class App(ctk.CTk):
         self.logo_label.grid(row=0, column=0, padx=20, pady=(20, 10), sticky= "nsew")
 
         # create widgets for coefficient settings
-        self.c_label1 = self.set_parameter_label("Coefficient")
+        self.c_label1 = self.set_parameter_label("Parameters")
         self.c_label1.grid(row=1, column=0, padx=20, pady=10, stick="nsew")
         self.c_label2 = ctk.CTkLabel(self.sidebar_frame, text="Value", font=ctk.CTkFont(size=14, weight="bold"))
         self.c_label2.grid(row=1, column=1, padx=20, pady=10, stick="nsew")
@@ -64,8 +64,12 @@ class App(ctk.CTk):
         self.p4_options.grid(row=5, column=1, padx=20, pady=20, sticky= "nsew")
 
         # run button
-        self.input_model_button = ctk.CTkButton(self.sidebar_frame, text="Run Prediction", command=self.run_prediction_button_event,fg_color="orange", hover_color="dark orange")
+        self.input_model_button = ctk.CTkButton(self.sidebar_frame, text="Run Prediction", command=self.run_prediction_button_event,fg_color="green", hover_color="dark green")
         self.input_model_button.grid(row=6, column=1, pady=20, sticky= "nsew")
+        
+        # reset button
+        self.input_model_button = ctk.CTkButton(self.sidebar_frame, text="Reset", command=self.run_reset_button_event,fg_color="orange", hover_color="dark orange")
+        self.input_model_button.grid(row=6, column=0, pady=20, padx=10, sticky= "nsew")
 
     def set_parameter_label(self, name):
         return ctk.CTkLabel(self.sidebar_frame, text= name, font=ctk.CTkFont(size=14, weight="bold"))
@@ -84,3 +88,6 @@ class App(ctk.CTk):
                                      self.p2_options._current_value, 
                                      self.p3_options._current_value, 
                                      self.p4_options._current_value))
+        
+    def run_reset_button_event(self):
+        self.draw_plot(plotting.reset_plot())
