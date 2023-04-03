@@ -4,7 +4,7 @@ __author__      = "Samuel Gibson"
 
 import numpy as np
 import matplotlib.pyplot as plt
-import thor_model as model
+import model.thor_model as model
 
 __fig_size = (8,8)
 
@@ -27,7 +27,7 @@ def plot(a, b, c, d):
     plt.ylim([0,100])
     plt.axhline(y=50, color='r', linestyle='-')
     plt.plot(plot_x, plot_y,'-g', label="Thor Model")
-    plt.xlabel("Time")
+    plt.xlabel("Time Cycle")
     plt.ylabel("% Force")
     plt.legend()
     return fig

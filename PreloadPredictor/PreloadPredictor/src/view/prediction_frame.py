@@ -1,42 +1,24 @@
-"""__preloadpredictor__.py: Presentation layer of the application. Utilizes customtkinter."""
-
-__author__      = "Samuel Gibson"
-
 import customtkinter as ctk
-import preload_predictor_plotting as plotting
-import thor_model as model
+import controller.preload_predictor_plotting as plotting
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import model.thor_model as model
 
-# main application
-class App(ctk.CTk):
-    def __init__(self):
-        
-        super().__init__()
+class PredictionFrame(ctk.CTkFrame):
 
-        # configure window
-        self.title("Preload Predictor")
-        self.geometry(f"{1100}x{580}")
+    def __init__(self, parent, *args, header_name = "Model Configuration", **kwargs):
+        super().__init__(*args,  **kwargs)
 
-        # configure grid layout (4x11)
-        self.grid_columnconfigure(1, weight=1)
-        self.grid_columnconfigure((2, 5), weight=0)
-        self.grid_rowconfigure((0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10), weight=1)
-        
-        # configure and draw base plotting
-        self.draw_plot(plotting.reset_plot())
+        self.parent = parent
 
-        # create sidebar frame with widgets
-        self.sidebar_frame = ctk.CTkFrame(self, width=140, corner_radius=0)
-        self.sidebar_frame.grid(row=0, column=0, rowspan=10, columnspan=2, sticky="nsew")
-        self.sidebar_frame.grid_rowconfigure(10, weight=1)
+        self.header_name = header_name
 
-        self.logo_label = ctk.CTkLabel(self.sidebar_frame, text="Model Configuration", font=ctk.CTkFont(size=20, weight="bold"))
-        self.logo_label.grid(row=0, column=0, padx=20, pady=(20, 10), sticky= "nsew")
+        self.header = ctk.CTkLabel(self, text=self.header_name, font=ctk.CTkFont(size=20, weight="bold"))
+        self.header.grid(row=0, column=0)
 
         # create widgets for coefficient settings
         self.c_label1 = self.set_parameter_label("Parameters")
         self.c_label1.grid(row=1, column=0, padx=20, pady=10, stick="nsew")
-        self.c_label2 = ctk.CTkLabel(self.sidebar_frame, text="Value", font=ctk.CTkFont(size=14, weight="bold"))
+        self.c_label2 = ctk.CTkLabel(self, text="Value", font=ctk.CTkFont(size=14, weight="bold"))
         self.c_label2.grid(row=1, column=1, padx=20, pady=10, stick="nsew")
 
         #sealent
@@ -64,23 +46,23 @@ class App(ctk.CTk):
         self.p4_options.grid(row=5, column=1, padx=20, pady=20, sticky= "nsew")
 
         # run button
-        self.input_model_button = ctk.CTkButton(self.sidebar_frame, text="Run Prediction", command=self.run_prediction_button_event,fg_color="green", hover_color="dark green")
+        self.input_model_button = ctk.CTkButton(self, text="Run Prediction", command=self.run_prediction_button_event,fg_color="green", hover_color="dark green")
         self.input_model_button.grid(row=6, column=1, pady=20, sticky= "nsew")
         
         # reset button
-        self.input_model_button = ctk.CTkButton(self.sidebar_frame, text="Reset", command=self.run_reset_button_event,fg_color="orange", hover_color="dark orange")
+        self.input_model_button = ctk.CTkButton(self, text="Reset", command=self.run_reset_button_event,fg_color="orange", hover_color="dark orange")
         self.input_model_button.grid(row=6, column=0, pady=20, padx=10, sticky= "nsew")
 
     def set_parameter_label(self, name):
-        return ctk.CTkLabel(self.sidebar_frame, text= name, font=ctk.CTkFont(size=14, weight="bold"))
+        return ctk.CTkLabel(self, text= name, font=ctk.CTkFont(size=14, weight="bold"))
     
     def set_parameter_options(self, values):
-        return ctk.CTkOptionMenu(self.sidebar_frame, values=values)
+        return ctk.CTkOptionMenu(self, values=values)
     
     def draw_plot(self, fig):
-        self.canvas = FigureCanvasTkAgg(fig, master=self)
-        self.canvas.draw()
-        self.canvas.get_tk_widget().grid(row=0, column=4, rowspan=10, columnspan=5, sticky= "nsew")
+        canvas = FigureCanvasTkAgg(fig, master=self.parent)
+        canvas.draw()
+        canvas.get_tk_widget().grid(row=0, column=2, rowspan=4, columnspan=4, padx=15, pady=15, sticky="nsew")
     
     # handle events
     def run_prediction_button_event(self):
@@ -91,3 +73,5 @@ class App(ctk.CTk):
         
     def run_reset_button_event(self):
         self.draw_plot(plotting.reset_plot())
+
+        

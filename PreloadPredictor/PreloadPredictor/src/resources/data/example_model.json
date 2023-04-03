@@ -1,0 +1,12 @@
+{
+    "label": "thor model",
+    
+    "type": "exp2",
+    
+    "coefficients": {
+        "a": 9.802,
+        "b": -0.099,
+        "c": 96.78,
+        "d": -0.000446
+    }
+}
