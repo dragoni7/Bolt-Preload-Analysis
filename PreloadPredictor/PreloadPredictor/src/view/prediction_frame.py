@@ -72,6 +72,6 @@ class PredictionFrame(ctk.CTkFrame):
                                      self.p4_options._current_value))
         
     def run_reset_button_event(self):
-        self.draw_plot(plotting.reset_plot())
+        self.draw_plot(ModelController.getInstance().activeModel().getFig())
 
         

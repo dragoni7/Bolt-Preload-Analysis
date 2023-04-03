@@ -4,6 +4,7 @@ __author__      = "Samuel Gibson"
 
 import customtkinter as ctk
 import controller.preload_predictor_plotting as plotting
+from controller.model_controller import ModelController
 import model.thor_model as model
 from view.main_tabview import MainTabview
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -24,7 +25,7 @@ class App(ctk.CTk):
         self.grid_rowconfigure(0, weight=1)
         
         # configure and draw initial plot
-        self.canvas = FigureCanvasTkAgg(plotting.reset_plot(), master=self)
+        self.canvas = FigureCanvasTkAgg(ModelController.getInstance().activeModel().getFig(), master=self)
         self.canvas.draw()
         self.canvas.get_tk_widget().grid(row=0, column=2, rowspan=4, columnspan=4, padx=15, pady=15, sticky="nsew")
 

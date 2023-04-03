@@ -9,39 +9,39 @@ class ModelController:
     def getInstance():
         if ModelController.__instance == None:
             ModelController()
-        return ModelController().__instance
+        return ModelController.__instance
     
     def __init__(self):
         if ModelController.__instance != None:
             raise Exception("Singleton Class!")
         else:
             ModelController.__instance = self
-            self.__models = []
-            self.__activeModel = None
+            self.models = []
+            self.active_model = None
 
-    def activeModel(self):
-        return self.__activeModel
+    def activeModel(self) -> PreloadDecayModel:
+        return self.active_model
 
     def setActive(self, label):
-        for model in self.__models:
+        for model in self.models:
             if model.label == label:
-                self.__activeModel = model
+                self.active_model = model
     
     def addModel(self, newModel: PreloadDecayModel):
-        self.__models.append(newModel)
+        self.models.append(newModel)
 
     def updateFig(self):
-        self.__activeModel.setXValues(np.arange(10000))
-        self.__activeModel.setYValues(self.__activeModel.exp_model(1, 1, 1, 1)) # TODO: get params
+        self.active_model.setXValues(np.arange(10000))
+        self.active_model.setYValues(self.active_model.exp_model(1, 1, 1, 1)) # TODO: get params
 
         fig = plt.figure(figsize=(8,8))
         plt.ylim([0,100])
         plt.axhline(y=50, color='r', linestyle='-')
-        plt.plot(self.__activeModel.xValues(), self.__activeModel.yValues(),'-g', label=self.__activeModel.label())
+        plt.plot(self.active_model.xValues(), self.active_model.yValues(),'-g', label=self.active_model.label())
         plt.xlabel("Time Cycle")
         plt.ylabel("% Force")
         plt.legend()
 
-        self.__activeModel.setFig(fig)
+        self.active_model.setFig(fig)
 
     # TODO: params
