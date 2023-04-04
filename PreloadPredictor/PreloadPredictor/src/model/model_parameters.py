@@ -25,4 +25,8 @@ values = {
         "v3": float(3.0)
     }
 }
+
+'''Returns a list of values for the given parameter'''
+def get_values(name):
+    return list(values[name].keys())
         

@@ -1,4 +1,5 @@
 import numpy as np
+from matplotlib.figure import Figure
 
 class PreloadDecayModel():
 
@@ -27,11 +28,11 @@ class PreloadDecayModel():
     def setYValues(self, new_y):
         self.y_values = new_y
 
-    def getFig(self):
-        return self.__fig
+    def getFig(self) -> Figure:
+        return self.fig
     
     def setFig(self, new_fig):
-        self.__fig = new_fig
+        self.fig = new_fig
 
 
     def exp_model(self, p_A, p_B, p_C, p_D):

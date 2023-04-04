@@ -1,5 +1,6 @@
 from model.preload_decay_model import PreloadDecayModel
 import matplotlib.pyplot as plt
+import model.model_parameters as p
 import numpy as np
 
 class ModelController:
@@ -30,18 +31,17 @@ class ModelController:
     def addModel(self, newModel: PreloadDecayModel):
         self.models.append(newModel)
 
-    def updateFig(self):
-        self.active_model.setXValues(np.arange(10000))
-        self.active_model.setYValues(self.active_model.exp_model(1, 1, 1, 1)) # TODO: get params
-
+    def updateModel(self, p_A, p_B, p_C, p_D, cycles=10000):
+        plt.close("all")
+        self.active_model.setXValues(np.arange(cycles))
+        self.active_model.setYValues(self.active_model.exp_model(p.values[p.SEALANT][p_A], p.values[p.PLATE_MATERIAL][p_B], p.values[p.PARAMETER3][p_C], p.values[p.PARAMETER4][p_D]))
         fig = plt.figure(figsize=(8,8))
         plt.ylim([0,100])
         plt.axhline(y=50, color='r', linestyle='-')
-        plt.plot(self.active_model.xValues(), self.active_model.yValues(),'-g', label=self.active_model.label())
+        plt.plot(self.active_model.xValues(), self.active_model.yValues(),'-g', label=self.active_model.label)
         plt.xlabel("Time Cycle")
         plt.ylabel("% Force")
         plt.legend()
 
         self.active_model.setFig(fig)
 
-    # TODO: params
