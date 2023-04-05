@@ -5,6 +5,7 @@ class PreloadDecayModel():
 
     def __init__(self, label: str, c_A = float(1.0), c_B = float(1.0), c_C = float(1.0), c_D = float(1.0)):
         self.label = label
+        self.threshold_point = None
         self.fig = None
         self.x_values = np.arange(1)
         self.y_values = np.arange(1)
@@ -12,6 +13,12 @@ class PreloadDecayModel():
         self.c_B = c_B
         self.c_C = c_C
         self.c_D = c_D
+
+    def get_threshold_point(self):
+        return self.threshold_point
+    
+    def set_threshold_point(self, x):
+        self.threshold_point = x
 
     def label(self) -> str:
         return self.label

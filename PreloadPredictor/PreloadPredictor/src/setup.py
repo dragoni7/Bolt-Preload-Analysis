@@ -1,8 +1,5 @@
 from creator.model_factory import ModelFactory
 from controller.model_controller import ModelController
-import model.model_parameters as p
-import numpy as np
-import matplotlib.pyplot as plt
 
 def run():
 

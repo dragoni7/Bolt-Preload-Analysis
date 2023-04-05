@@ -4,7 +4,6 @@ __author__      = "Samuel Gibson"
 
 import customtkinter as ctk
 from controller.model_controller import ModelController
-import model.thor_model as model
 from view.main_tabview import MainTabview
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import view.plot_view as plot

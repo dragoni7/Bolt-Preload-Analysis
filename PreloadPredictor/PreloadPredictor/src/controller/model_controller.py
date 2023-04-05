@@ -31,17 +31,24 @@ class ModelController:
     def addModel(self, newModel: PreloadDecayModel):
         self.models.append(newModel)
 
-    def updateModel(self, p_A, p_B, p_C, p_D, cycles=10000):
+    def updateModel(self, p_A, p_B, p_C, p_D, cycles=10000, threshold=50):
         plt.close("all")
+
         self.active_model.setXValues(np.arange(cycles))
         self.active_model.setYValues(self.active_model.exp_model(p.values[p.SEALANT][p_A], p.values[p.PLATE_MATERIAL][p_B], p.values[p.PARAMETER3][p_C], p.values[p.PARAMETER4][p_D]))
+        cycle_prediction = (np.abs(self.active_model.yValues() - threshold)).argmin()
+
         fig = plt.figure(figsize=(8,8))
         plt.ylim([0,100])
-        plt.axhline(y=50, color='r', linestyle='-')
-        plt.plot(self.active_model.xValues(), self.active_model.yValues(),'-g', label=self.active_model.label)
+        plt.plot(self.active_model.xValues(), self.active_model.yValues(), color='g', label=self.active_model.label)
+        plt.axhline(y=threshold, color='r', linestyle='-')
+        plt.plot([cycle_prediction], [threshold], 'o', color="r")
         plt.xlabel("Time Cycle")
         plt.ylabel("% Force")
         plt.legend()
+
+        
+        self.active_model.set_threshold_point(cycle_prediction.item())
 
         self.active_model.setFig(fig)
 

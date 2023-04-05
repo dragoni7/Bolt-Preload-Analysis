@@ -63,7 +63,7 @@ class PredictionFrame(ctk.CTkFrame):
 
         # entry
         self.threshold_entry = ctk.CTkEntry(master=self, placeholder_text="preload threshold")
-        self.threshold_entry.insert("0", "60")
+        self.threshold_entry.insert("0", "50")
         self.threshold_entry.grid(row=9, column=1, pady=20, sticky= "nsew")
 
         # run button
@@ -90,6 +90,7 @@ class PredictionFrame(ctk.CTkFrame):
         cycle_entry_str = self.cycle_entry.get()
         threshold_entry_str = self.threshold_entry.get()
 
+        # check cycle input
         if (len(cycle_entry_str) < 7 and len(cycle_entry_str) > 0):
             try:
                 cycles = int(re.search(r'\d+', cycle_entry_str).group())
@@ -104,16 +105,35 @@ class PredictionFrame(ctk.CTkFrame):
             self.parent.textbox.delete("0.0", "end")
             self.parent.textbox.insert("0.0", "Invalid cycles input length\n")
             self.parent.textbox.configure(state="disabled")
-            return            
+            return
+        
+        # check threshold input
+        if (len(threshold_entry_str) <= 10 and len(threshold_entry_str) > 0):
+            try:
+                threshold = int(re.search(r'\d+', threshold_entry_str).group())
+            except:
+                self.parent.textbox.configure(state="normal", text_color="red", border_color="red")
+                self.parent.textbox.delete("0.0", "end")
+                self.parent.textbox.insert("0.0", "Non integer input detected for threshold\n")
+                self.parent.textbox.configure(state="disabled")
+                return
+        else:
+            self.parent.textbox.configure(state="normal", text_color="red", border_color="red")
+            self.parent.textbox.delete("0.0", "end")
+            self.parent.textbox.insert("0.0", "Invalid threshold input length\n")
+            self.parent.textbox.configure(state="disabled")
+            return
 
         self.controller.updateModel(self.p1_options._current_value,
                                      self.p2_options._current_value,
                                      self.p3_options._current_value, 
                                      self.p4_options._current_value,
-                                     cycles)
+                                     cycles,
+                                     threshold)
+        
         self.parent.textbox.configure(state="normal", text_color="orange", border_color="grey")
         self.parent.textbox.delete("0.0", "end")
-        self.parent.textbox.insert("0.0", "Preload decay threshold met at:\nWith:\n" +  cycle_entry_str + " cycles\n" + "threshold of " + threshold_entry_str + "%\n")
+        self.parent.textbox.insert("0.0", "Preload decay threshold met at: " + str(self.controller.activeModel().get_threshold_point()) + " cycles\nConfig:\n" +  cycle_entry_str + " cycles\n" + "threshold of " + threshold_entry_str + "%\n")
         self.parent.textbox.configure(state="disabled")
         
         plot.draw_plot(self.parent)
