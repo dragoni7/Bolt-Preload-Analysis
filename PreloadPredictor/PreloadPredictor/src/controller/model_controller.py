@@ -8,6 +8,7 @@ class ModelController:
 
     @staticmethod
     def getInstance():
+        '''Get the controller singleton instance'''
         if ModelController.__instance == None:
             ModelController()
         return ModelController.__instance
@@ -17,30 +18,34 @@ class ModelController:
             raise Exception("Singleton Class!")
         else:
             ModelController.__instance = self
-            self.models = []
-            self.active_model = None
-
-    def activeModel(self) -> PreloadDecayModel:
-        return self.active_model
-
-    def setActive(self, label):
-        for model in self.models:
-            if model.label == label:
-                self.active_model = model
+            self._models = []
+            self._active_model = None
+    @property
+    def active_model(self) -> PreloadDecayModel:
+        '''Gets the selected model'''
+        return self._active_model
     
-    def addModel(self, newModel: PreloadDecayModel):
-        self.models.append(newModel)
+    def select_model(self, label):
+        '''Selects an active model by label'''
+        for model in self._models:
+            if model.label == label:
+                self._active_model = model
+    
+    def add_model(self, newModel: PreloadDecayModel):
+        '''Adds a new model to the list of models'''
+        self._models.append(newModel)
 
-    def updateModel(self, p_A, p_B, p_C, p_D, cycles=10000, threshold=50):
+    def update_model(self, p_A, p_B, p_C, p_D, cycles=10000, threshold=50):
+        '''Updates a models data according to user inputs'''
         plt.close("all")
 
-        self.active_model.setXValues(np.arange(cycles))
-        self.active_model.setYValues(self.active_model.exp_model(p.values[p.SEALANT][p_A], p.values[p.PLATE_MATERIAL][p_B], p.values[p.PARAMETER3][p_C], p.values[p.PARAMETER4][p_D]))
-        cycle_prediction = (np.abs(self.active_model.yValues() - threshold)).argmin()
+        self._active_model.x_values = np.arange(cycles)
+        self._active_model.y_values = self._active_model.exp_model(p.values[p.SEALANT][p_A], p.values[p.PLATE_MATERIAL][p_B], p.values[p.PARAMETER3][p_C], p.values[p.PARAMETER4][p_D])
+        cycle_prediction = (np.abs(self._active_model.y_values - threshold)).argmin()
 
         fig = plt.figure(figsize=(8,8))
         plt.ylim([0,100])
-        plt.plot(self.active_model.xValues(), self.active_model.yValues(), color='g', label=self.active_model.label)
+        plt.plot(self._active_model.x_values, self._active_model.y_values, color='g', label=self._active_model.label)
         plt.axhline(y=threshold, color='r', linestyle='-')
         plt.plot([cycle_prediction], [threshold], 'o', color="r")
         plt.xlabel("Time Cycle")
@@ -48,7 +53,7 @@ class ModelController:
         plt.legend()
 
         
-        self.active_model.set_threshold_point(cycle_prediction.item())
+        self._active_model.threshold_point = cycle_prediction.item()
 
-        self.active_model.setFig(fig)
+        self._active_model.figure = (fig)
 

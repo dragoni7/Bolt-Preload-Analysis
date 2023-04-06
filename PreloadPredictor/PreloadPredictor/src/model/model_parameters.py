@@ -1,3 +1,6 @@
+'''Stores the experimental parameters that have an effect on the exp2 models'''
+'''Currently serves as example'''
+
 SEALANT = "sealant"
 PLATE_MATERIAL = "plate material"
 PARAMETER3 = "parameter3"

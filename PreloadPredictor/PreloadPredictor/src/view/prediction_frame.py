@@ -1,7 +1,6 @@
 import customtkinter as ctk
 from controller.model_controller import ModelController
 import model.model_parameters as model_parameters
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import view.plot_view as plot
 import re
 
@@ -18,12 +17,13 @@ class PredictionFrame(ctk.CTkFrame):
         self.model_header = ctk.CTkLabel(self, text="Model:", font=ctk.CTkFont(size=20, weight="bold"))
         self.model_header.grid(row=0, column=0)
 
-        # create widgets for parameter settings
+        # Parameter and values header
         self.c_label1 = self.set_parameter_label("Parameters")
         self.c_label1.grid(row=1, column=1, padx=20, pady=10, stick="nsew")
         self.c_label2 = ctk.CTkLabel(self, text="Value", font=ctk.CTkFont(size=14, weight="bold"))
         self.c_label2.grid(row=1, column=2, padx=20, pady=10, stick="nsew")
 
+        # Create a widget and label for each experimental parameter:
         # sealent
         self.p1_label = self.set_parameter_label(model_parameters.SEALANT + ":")
         self.p1_label.grid(row=2, column=1)
@@ -70,20 +70,13 @@ class PredictionFrame(ctk.CTkFrame):
         self.input_model_button = ctk.CTkButton(self, text="Run Prediction", command=self.run_prediction_button_event,fg_color="green", hover_color="dark green")
         self.input_model_button.grid(row=10, column=1, pady=20, sticky= "nsew")
 
-
-    def slider_event(self, value):
-        print(value)
-
     def set_parameter_label(self, name):
+        '''Configures a label widget'''
         return ctk.CTkLabel(self, text= name, font=ctk.CTkFont(size=14, weight="bold"))
     
     def set_parameter_options(self, values):
+        '''Configures a menu with parameter values'''
         return ctk.CTkOptionMenu(self, values=values)
-    
-    def draw_plot(self, fig):
-        canvas = FigureCanvasTkAgg(ModelController.getInstance().activeModel().getFig(), master=self.parent)
-        canvas.draw()
-        canvas.get_tk_widget().grid(row=0, column=2, rowspan=4, columnspan=4, padx=15, pady=15, sticky="nsew")
     
     # handle events
     def run_prediction_button_event(self):
@@ -108,23 +101,23 @@ class PredictionFrame(ctk.CTkFrame):
             return
         
         # check threshold input
-        if (len(threshold_entry_str) <= 10 and len(threshold_entry_str) > 0):
-            try:
+        try:
                 threshold = int(re.search(r'\d+', threshold_entry_str).group())
-            except:
+        except:
                 self.parent.textbox.configure(state="normal", text_color="red", border_color="red")
                 self.parent.textbox.delete("0.0", "end")
                 self.parent.textbox.insert("0.0", "Non integer input detected for threshold\n")
                 self.parent.textbox.configure(state="disabled")
                 return
-        else:
+        
+        if (threshold < 1 or threshold > 100):
             self.parent.textbox.configure(state="normal", text_color="red", border_color="red")
             self.parent.textbox.delete("0.0", "end")
-            self.parent.textbox.insert("0.0", "Invalid threshold input length\n")
+            self.parent.textbox.insert("0.0", "Invalid threshold input\n")
             self.parent.textbox.configure(state="disabled")
             return
 
-        self.controller.updateModel(self.p1_options._current_value,
+        self.controller.update_model(self.p1_options._current_value,
                                      self.p2_options._current_value,
                                      self.p3_options._current_value, 
                                      self.p4_options._current_value,
@@ -133,7 +126,7 @@ class PredictionFrame(ctk.CTkFrame):
         
         self.parent.textbox.configure(state="normal", text_color="orange", border_color="grey")
         self.parent.textbox.delete("0.0", "end")
-        self.parent.textbox.insert("0.0", "Preload decay threshold met at: " + str(self.controller.activeModel().get_threshold_point()) + " cycles\nConfig:\n" +  cycle_entry_str + " cycles\n" + "threshold of " + threshold_entry_str + "%\n")
+        self.parent.textbox.insert("0.0", "Preload decay threshold met at: " + str(self.controller.active_model.threshold_point) + " cycles\nConfig:\n" +  cycle_entry_str + " cycles\n" + "threshold of " + threshold_entry_str + "%\n")
         self.parent.textbox.configure(state="disabled")
         
         plot.draw_plot(self.parent)

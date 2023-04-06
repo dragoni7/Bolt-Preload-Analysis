@@ -8,5 +8,5 @@ def run():
     factory = ModelFactory()
     model = factory.create_model("exp2", "Thor Model", float(9.802), float(-0.099), float(96.78), float(-0.000446))
     
-    controller.addModel(model)
-    controller.setActive("Thor Model")
+    controller.add_model(model)
+    controller.select_model("Thor Model")

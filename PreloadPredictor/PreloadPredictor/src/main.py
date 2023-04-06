@@ -1,4 +1,5 @@
 from view.preload_predictor_app import App
+import sys
 import setup
 
 class Main:
@@ -6,8 +7,9 @@ class Main:
     def run():
         try:
             setup.run()
-            app = App()
-            app.mainloop()
+            root = App()
+            root.protocol("WM_DELETE_WINDOW", sys.exit)
+            root.mainloop()
         except Exception as e:
             print(str(e))
 

@@ -5,7 +5,6 @@ __author__      = "Samuel Gibson"
 import customtkinter as ctk
 from controller.model_controller import ModelController
 from view.main_tabview import MainTabview
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import view.plot_view as plot
 
 # main application
@@ -27,7 +26,7 @@ class App(ctk.CTk):
         self.grid_rowconfigure(0, weight=1)
         
         # configure and draw initial plot
-        self.controller.updateModel("v1", "aluminum", "v1", "v1")
+        self.controller.update_model("v1", "aluminum", "v1", "v1")
         plot.draw_plot(self)
 
         # configure empty text box
@@ -37,8 +36,3 @@ class App(ctk.CTk):
 
         self.tab_view = MainTabview(self, border_width=10)
         self.tab_view.grid(row=0, column=0, rowspan=6, columnspan=2, padx=10, pady=5, sticky="nsew")
-    
-    def draw_plot(self):
-        self.canvas = FigureCanvasTkAgg(self.controller.activeModel().getFig(), master=self)
-        self.canvas.draw()
-        self.canvas.get_tk_widget().grid(row=0, column=2, rowspan=4, columnspan=4, padx=15, pady=15, sticky="nsew")
