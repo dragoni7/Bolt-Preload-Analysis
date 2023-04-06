@@ -1,6 +1,6 @@
 import customtkinter as ctk
 from controller.model_controller import ModelController
-import model.model_parameters as model_parameters
+import model.experimental_parameters as model_parameters
 import view.plot_view as plot
 import re
 
@@ -9,7 +9,7 @@ class PredictionFrame(ctk.CTkFrame):
     def __init__(self, parent, *args, **kwargs):
         super().__init__(*args,  **kwargs)
 
-        self.controller = ModelController.getInstance()
+        self.controller = ModelController.get_instance()
 
         self.parent = parent
 

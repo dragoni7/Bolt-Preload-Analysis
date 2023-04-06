@@ -14,7 +14,7 @@ class App(ctk.CTk):
         
         super().__init__()
 
-        self.controller = ModelController.getInstance()
+        self.controller = ModelController.get_instance()
         self.console_font = ctk.CTkFont(family="Consolas", size=16)
 
         # configure window

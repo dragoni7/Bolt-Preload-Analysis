@@ -1,13 +1,13 @@
 from model.preload_decay_model import PreloadDecayModel
 import matplotlib.pyplot as plt
-import model.model_parameters as p
+import model.experimental_parameters as p
 import numpy as np
 
 class ModelController:
     __instance = None
 
     @staticmethod
-    def getInstance():
+    def get_instance():
         '''Get the controller singleton instance'''
         if ModelController.__instance == None:
             ModelController()
@@ -31,9 +31,9 @@ class ModelController:
             if model.label == label:
                 self._active_model = model
     
-    def add_model(self, newModel: PreloadDecayModel):
+    def add_model(self, new_model: PreloadDecayModel):
         '''Adds a new model to the list of models'''
-        self._models.append(newModel)
+        self._models.append(new_model)
 
     def update_model(self, p_A, p_B, p_C, p_D, cycles=10000, threshold=50):
         '''Updates a models data according to user inputs'''
