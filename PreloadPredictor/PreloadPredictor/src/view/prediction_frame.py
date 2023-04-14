@@ -10,17 +10,18 @@ class PredictionFrame(ctk.CTkFrame):
         super().__init__(*args,  **kwargs)
 
         self.controller = ModelController.get_instance()
-
+        self.header_font = ctk.CTkFont(size=20, weight="bold", family="Proxima Nova")
+        self.sub_header_font = ctk.CTkFont(size=14, weight="bold", family="Monserrat")
         self.parent = parent
 
         # Model header
-        self.model_header = ctk.CTkLabel(self, text="Model:", font=ctk.CTkFont(size=20, weight="bold"))
+        self.model_header = ctk.CTkLabel(self, text="Model:", font=self.header_font)
         self.model_header.grid(row=0, column=0)
 
         # Parameter and values header
         self.c_label1 = self.set_parameter_label("Parameters")
         self.c_label1.grid(row=1, column=1, padx=20, pady=10, stick="nsew")
-        self.c_label2 = ctk.CTkLabel(self, text="Value", font=ctk.CTkFont(size=14, weight="bold"))
+        self.c_label2 = ctk.CTkLabel(self, text="Value", font=self.sub_header_font)
         self.c_label2.grid(row=1, column=2, padx=20, pady=10, stick="nsew")
 
         # Create a widget and label for each experimental parameter:
@@ -49,7 +50,7 @@ class PredictionFrame(ctk.CTkFrame):
         self.p4_options.grid(row=5, column=2, padx=20, pady=10, sticky= "nsew")
 
         # time cycle
-        self.cycle_header = ctk.CTkLabel(self, text="Time Cycle:", font=ctk.CTkFont(size=20, weight="bold"))
+        self.cycle_header = ctk.CTkLabel(self, text="Time Cycle:", font=self.header_font)
         self.cycle_header.grid(row=6, column=0)
 
         # entry
@@ -58,7 +59,7 @@ class PredictionFrame(ctk.CTkFrame):
         self.cycle_entry.grid(row=7, column=1, pady=20, sticky= "nsew")
 
         # preload threshold
-        self.cycle_header = ctk.CTkLabel(self, text="Preload Threshold:", font=ctk.CTkFont(size=20, weight="bold"))
+        self.cycle_header = ctk.CTkLabel(self, text="Preload Threshold:", font=self.header_font)
         self.cycle_header.grid(row=8, column=0)
 
         # entry
@@ -72,7 +73,7 @@ class PredictionFrame(ctk.CTkFrame):
 
     def set_parameter_label(self, name):
         '''Configures a label widget'''
-        return ctk.CTkLabel(self, text= name, font=ctk.CTkFont(size=14, weight="bold"))
+        return ctk.CTkLabel(self, text= name, font=self.sub_header_font)
     
     def set_parameter_options(self, values):
         '''Configures a menu with parameter values'''

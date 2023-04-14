@@ -15,10 +15,13 @@ class MainTabview(ctk.CTkTabview):
         self.add("Options")
 
         self.prediction_frame = PredictionFrame(master, master=self.tab("Prediction"))
+        self.prediction_frame.configure(fg_color="#003060")
         self.prediction_frame.grid(row=0, column=0)
 
         self.models_frame = ModelsFrame(master=self.tab("Models"))
+        self.models_frame.configure(fg_color="#003060")
         self.models_frame.grid(row=0, column=0)
 
         self.options_frame = OptionFrame(master=self.tab("Options"))
+        self.options_frame.configure(fg_color="#003060")
         self.options_frame.grid(row=0, column=0)

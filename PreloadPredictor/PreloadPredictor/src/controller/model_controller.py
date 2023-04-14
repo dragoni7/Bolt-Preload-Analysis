@@ -43,13 +43,13 @@ class ModelController:
         self._active_model.y_values = self._active_model.exp_model(p.values[p.SEALANT][p_A], p.values[p.PLATE_MATERIAL][p_B], p.values[p.PARAMETER3][p_C], p.values[p.PARAMETER4][p_D])
         cycle_prediction = (np.abs(self._active_model.y_values - threshold)).argmin()
 
-        fig = plt.figure(figsize=(8,8))
+        fig = plt.figure(figsize=(8,8), facecolor="#003060")
         plt.ylim([0,100])
         plt.plot(self._active_model.x_values, self._active_model.y_values, color='g', label=self._active_model.label)
         plt.axhline(y=threshold, color='r', linestyle='-')
         plt.plot([cycle_prediction], [threshold], 'o', color="r")
-        plt.xlabel("Time Cycle")
-        plt.ylabel("% Force")
+        plt.xlabel("Time Cycle", fontweight='bold')
+        plt.ylabel("% Force", fontweight='bold')
         plt.legend()
 
         
