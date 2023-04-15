@@ -1,31 +1,35 @@
 '''Stores the experimental parameters that have an effect on the exp2 models'''
 '''Currently serves as example'''
 
-SEALANT = "sealant"
-PLATE_MATERIAL = "plate material"
-PARAMETER3 = "parameter3"
-PARAMETER4 = "parameter4"
+SEALANT = "Sealant"
+PLATE_MATERIAL = "Plate Material"
+BOLT_DIAMETER = "Bolt Diameter"
+FASTENER_MATERIAL = "Fastener Material"
+FASTENER_THREAD_SIZE = "Fastener Thread Size"
 
 values = {
     SEALANT: {
-        "v1": float(2.0),
-        "v2": float(3.0),
-        "v3": float(5.0)
+        "BMS 5-45": float(2.0),
+        "v2": float(4.0),
+        "none": float(0.1)
     },
     PLATE_MATERIAL: {
         "aluminum": float(5.0),
-        "carbon fiber": float(6.2),
-        "v3": float(10.0)
+        "CFRP": float(6.2)
     },
-    PARAMETER3: {
-        "v1": float(1.1),
-        "v2": float(1.2),
-        "v3": float(1.3)
-    },
-    PARAMETER4: {
+    BOLT_DIAMETER: {
         "v1": float(1.0),
         "v2": float(2.0),
-        "v3": float(3.0)
+        "v3": float(2.5)
+    },
+    FASTENER_MATERIAL: {
+        "steel": float(1.5),
+        "titanium": float(4.0)
+    },
+    FASTENER_THREAD_SIZE: {
+        "1/4in": float(1.1),
+        "3/8in": float(1.2),
+        "1/2in": float(1.3)
     }
 }
 

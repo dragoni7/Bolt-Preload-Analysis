@@ -65,12 +65,12 @@ class PreloadDecayModel():
         self._figure = value
 
 
-    def exp_model(self, p_A, p_B, p_C, p_D):
+    def exp_model(self, p_A, p_B, p_C, p_D, p_E):
         '''Calculates the y values of the exp2 model, applying parameters to coefficients'''
         a_new = self.c_A * p_A
         b_new = self.c_B * p_B
         c_new = self.c_C * p_C
         d_new = self.c_D * p_D
         
-        return (a_new*np.exp(b_new * self.x_values)) + ((c_new)*np.exp(d_new * self.x_values))
+        return (a_new*np.exp(b_new * self.x_values)) + ((c_new)*np.exp(d_new * self.x_values)) * p_E
     
