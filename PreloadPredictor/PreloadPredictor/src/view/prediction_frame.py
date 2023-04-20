@@ -4,6 +4,7 @@ import model.experimental_parameters as model_parameters
 import view.plot_update_helper as plot
 import tkinter
 from datetime import datetime
+import math
 import re
 
 class PredictionFrame(ctk.CTkFrame):
@@ -85,10 +86,10 @@ class PredictionFrame(ctk.CTkFrame):
         self.threshold_entry_1.insert("0", "50")
         self.threshold_entry_1.grid(row=10, column=1, pady=5, padx=5, sticky= "nsew")
         self.threshold_entry_2 = ctk.CTkEntry(master=self, placeholder_text="preload threshold 2", width=20)
-        self.threshold_entry_2.insert("0", "60")
+        self.threshold_entry_2.insert("0", "40")
         self.threshold_entry_2.grid(row=11, column=1, pady=5, padx=5, sticky= "nsew")
         self.threshold_entry_3 = ctk.CTkEntry(master=self, placeholder_text="preload threshold 3", width=20)
-        self.threshold_entry_3.insert("0", "70")
+        self.threshold_entry_3.insert("0", "30")
         self.threshold_entry_3.grid(row=12, column=1, pady=5, padx=5, sticky= "nsew")
         # preload threshold checkbox
         self.threshold_checkbox_1 = ctk.CTkCheckBox(master=self, text="enable", command=self.checkbox_event, variable=self.t2_enabled, onvalue="on", offvalue="off")
@@ -203,6 +204,13 @@ class PredictionFrame(ctk.CTkFrame):
     def get_report(self, threshold_1, threshold_2, threshold_3):
         genTime = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         threshold_str_1 = "-Threshold 1 at " + str(threshold_1) + "% preload loss\n"
+        threshold_point_str = "\nPreload decay threshold 1 met at: " + str(self.controller.active_model.get_threshold_point(0)) + " hours" + " or " + str(math.floor(self.controller.active_model.get_threshold_point(0) / 24)) + " days\n"
+        
+        if (self.controller.active_model.get_threshold_point(1)):
+            threshold_point_str += "Preload decay threshold 2 met at: " + str(self.controller.active_model.get_threshold_point(1)) + " hours" + " or " + str(math.floor(self.controller.active_model.get_threshold_point(1) / 24)) + " days\n"
+        if (self.controller.active_model.get_threshold_point(2)):
+            threshold_point_str += "Preload decay threshold 3 met at: " + str(self.controller.active_model.get_threshold_point(2)) + " hours" + " or " + str(math.floor(self.controller.active_model.get_threshold_point(2) / 24)) + " days\n"
+        
         if (threshold_2 < 1):
             threshold_str_2 = ""
         else:
@@ -213,5 +221,5 @@ class PredictionFrame(ctk.CTkFrame):
             threshold_str_3 = "-Threshold 3 at " + str(threshold_3) + "% preload loss\n"
 
         configStr = "Config:\n" + threshold_str_1 + threshold_str_2 + threshold_str_3 + "-Sealant: " + str(self.p1_options._current_value) + "\n-Plate Material: " + str(self.p2_options._current_value) + "\n-Bolt Diameter: " + str(self.p3_options._current_value) + "\n-Fastener Material: " + str(self.p4_options._current_value) + "\n-Fastener Thread Size: " + str(self.p5_options._current_value)
-        return "Report:\nGeneration Time: " + genTime + "\nPreload decay threshold met at: " + str(self.controller.active_model.threshold_point) + " time cycles\n" + configStr    
+        return "Report:\nGeneration Time: " + genTime + threshold_point_str + configStr    
         

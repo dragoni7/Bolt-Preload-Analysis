@@ -46,9 +46,9 @@ class ModelController:
         cycle_prediction_2 = cycle_prediction_1
         cycle_prediction_3 = cycle_prediction_1
         
-        if (threshold_2 < 0):
+        if (threshold_2 > 0):
             cycle_prediction_2 = (np.abs(self._active_model.y_values - threshold_2)).argmin()
-        if (threshold_3 < 0):            
+        if (threshold_3 > 0):            
             cycle_prediction_3 = (np.abs(self._active_model.y_values - threshold_3)).argmin()
 
         # color by threshold
@@ -60,6 +60,7 @@ class ModelController:
         ax.grid(axis = 'x')
         ax.axhline(y=threshold_1, color='r', linestyle='dashed')
         ax.plot([cycle_prediction_1], [threshold_1], 'o', color="r")
+        
         if (threshold_2 > 1):
             ax.axhline(y=threshold_2, color='r', linestyle='dashed')
             ax.plot([cycle_prediction_2], [threshold_2], 'o', color="r")
@@ -71,9 +72,12 @@ class ModelController:
         ax.tick_params(labelcolor='#F2F2F2')
         ax.set_facecolor('#eafff5')
         # labels
-        plt.xlabel("Time Cycles", fontweight='bold', color='#F2F2F2')
+        plt.xlabel("Hours", fontweight='bold', color='#F2F2F2')
         plt.ylabel("% Force", fontweight='bold', color='#F2F2F2')
 
-        self._active_model.threshold_point = cycle_prediction_1.item()
+        self._active_model.insert_threshold_point(cycle_prediction_1.item(), 0)
+        self._active_model.insert_threshold_point(cycle_prediction_2.item(), 1)
+        self._active_model.insert_threshold_point(cycle_prediction_3.item(), 2)
+        
         self._active_model.figure = (fig)
 
