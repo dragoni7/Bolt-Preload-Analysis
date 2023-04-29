@@ -1,6 +1,7 @@
 import customtkinter as ctk
 
 class ModelsFrame(ctk.CTkFrame):
+    '''Frame to hold models display'''
     def __init__(self, *args, header_name = "Models", **kwargs):
         super().__init__(*args,  **kwargs)
 

@@ -6,7 +6,8 @@ def run():
     controller = ModelController.get_instance()
 
     factory = ModelFactory()
-    model = factory.create_model("exp2", "Thor Model", float(9.802), float(-0.099), float(96.78), float(-0.000446))
+    # create our model and add it to the model controller      a                b             c                 d
+    model = factory.create_model("exp2", "Thor Model", float(5.811), float(-0.02105), float(88.14), float(-2.003e-05)) # from base line noseal .250 aluminum
     
     controller.add_model(model)
-    controller.select_model("Thor Model")
+    controller.select_model("Thor Model") # set out model as the selected one

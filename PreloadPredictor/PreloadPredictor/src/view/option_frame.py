@@ -1,6 +1,7 @@
 import customtkinter as ctk
 
 class OptionFrame(ctk.CTkFrame):
+    '''Frame to hold options'''
     def __init__(self, *args, header_name = "Options", **kwargs):
         super().__init__(*args,  **kwargs)
 

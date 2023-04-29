@@ -6,7 +6,7 @@ class Main:
     @staticmethod
     def run():
         try:
-            setup.run()
+            setup.run() # set up application data
             root = App()
             root.protocol("WM_DELETE_WINDOW", sys.exit)
             root.mainloop()

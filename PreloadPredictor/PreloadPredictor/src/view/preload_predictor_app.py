@@ -1,23 +1,21 @@
-"""__preloadpredictor__.py: Presentation layer of the application. Utilizes customtkinter."""
-
 __author__      = "Samuel Gibson"
 
 import customtkinter as ctk
-import tkinter
 from controller.model_controller import ModelController
 from view.main_tabview import MainTabview
 from view.plot_frame import PlotFrame
 from config import APP_PATH
 from PIL import Image
 
-# main application
+# main application, imports frames to create the user interface
 class App(ctk.CTk):
 
     def __init__(self):
         
         super().__init__()
 
-        self.controller = ModelController.get_instance()
+        self.controller = ModelController.get_instance() # get controller instance
+        # styling
         self.console_font = ctk.CTkFont(family="Consolas", size=16)
         self.configure(fg_color="#003060")
 
@@ -30,7 +28,7 @@ class App(ctk.CTk):
         self.grid_rowconfigure(0, weight=1)
         
         # configure and draw initial plot
-        self.controller.update_model("BMS 5-45", "aluminum", "v1", "steel", "1/4in")
+        self.controller.update_model("BMS 5-45", "aluminum", "v1", "steel", "1/4in") # create the graph with these parameters
         self.plotframe = PlotFrame(self, border_width=10)
         self.plotframe.configure(border_color="#0E86D4", fg_color="#003060")
         self.plotframe.grid(row=0, column=2, rowspan=4, columnspan=4, padx=15, pady=15, sticky="nsew")
@@ -48,6 +46,5 @@ class App(ctk.CTk):
         # image header
         self.logo = ctk.CTkImage(light_image=Image.open(APP_PATH + "\\resources\\data\\image\\logo.png"),
                                   size=(146, 52))
-
         self.logo_button = ctk.CTkButton(self, image=self.logo, text=" Preload Predictor  v 0.0.1", fg_color="#B3B3B3", hover=False, anchor="w", compound="left")
         self.logo_button.grid(row=0, column=0, columnspan=2, padx=10, pady=10, sticky="ew")

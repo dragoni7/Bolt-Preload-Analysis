@@ -4,6 +4,7 @@ from view.option_frame import OptionFrame
 from view.models_frame import ModelsFrame
 
 class MainTabview(ctk.CTkTabview):
+    '''Tab view containing application frames'''
 
     def __init__(self, master, **kwargs):
 

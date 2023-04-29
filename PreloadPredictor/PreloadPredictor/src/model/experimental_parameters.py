@@ -1,5 +1,6 @@
 '''Stores the experimental parameters that have an effect on the exp2 models'''
-'''Currently serves as example'''
+'''These parameters are determined through our bolt testing experiments'''
+'''Hard coded for now'''
 
 SEALANT = "Sealant"
 PLATE_MATERIAL = "Plate Material"
@@ -9,12 +10,12 @@ FASTENER_THREAD_SIZE = "Fastener Thread Size"
 
 values = {
     SEALANT: {
-        "BMS 5-45": float(2.0),
+        "BMS 5-45": float(1.0),
         "v2": float(4.0),
         "none": float(0.1)
     },
     PLATE_MATERIAL: {
-        "aluminum": float(5.0),
+        "aluminum": float(1.0),
         "CFRP": float(6.2)
     },
     BOLT_DIAMETER: {
@@ -33,7 +34,7 @@ values = {
     }
 }
 
-'''Returns a list of values for the given parameter'''
 def get_values(name):
+    '''Returns a list of values for the given parameter name'''
     return list(values[name].keys())
         

@@ -12,11 +12,13 @@ class PredictionFrame(ctk.CTkFrame):
     def __init__(self, parent, *args, **kwargs):
         super().__init__(*args,  **kwargs)
 
-        self.controller = ModelController.get_instance()
+        self.controller = ModelController.get_instance() # model controller instance
+        # styling
         self.header_font = ctk.CTkFont(size=22, weight="bold", family="Proxima Nova")
         self.subheader_font = ctk.CTkFont(size=14, weight="bold", family="Monserrat")
         self.text_font = ctk.CTkFont(size=13, family="Monserrat")
         self.parent = parent
+        # vars the toggable additional thresholds
         self.t2_enabled = tkinter.StringVar(self, "on")
         self.t3_enabled = tkinter.StringVar(self, "on")
 
@@ -31,6 +33,7 @@ class PredictionFrame(ctk.CTkFrame):
         self.c_label2.grid(row=1, column=1, pady=10, stick="nsew")
 
         # Create a widget and label for each experimental parameter:
+        # hard coded as of now
         # sealant
         self.p1_label = self.set_parameter_label(model_parameters.SEALANT + ":")
         self.p1_label.grid(row=2, column=0)
@@ -43,35 +46,35 @@ class PredictionFrame(ctk.CTkFrame):
         self.p2_options = self.set_parameter_options(model_parameters.get_values(model_parameters.PLATE_MATERIAL))
         self.p2_options.grid(row=3, column=1, padx=20, pady=5, sticky= "nsew")
 
-        # parameter3
+        # bolt diameter
         self.p3_label = self.set_parameter_label(model_parameters.BOLT_DIAMETER + ":")
         self.p3_label.grid(row=4, column=0)
         self.p3_options = self.set_parameter_options(model_parameters.get_values(model_parameters.BOLT_DIAMETER))
         self.p3_options.grid(row=4, column=1, padx=20, pady=5, sticky= "nsew")
 
-        # parameter4
+        # fastener material
         self.p4_label = self.set_parameter_label(model_parameters.FASTENER_MATERIAL + ":")
         self.p4_label.grid(row=5, column=0)
         self.p4_options = self.set_parameter_options(model_parameters.get_values(model_parameters.FASTENER_MATERIAL))
         self.p4_options.grid(row=5, column=1, padx=20, pady=5, sticky= "nsew")
 
-        # parameter4
+        # fastener thread size
         self.p5_label = self.set_parameter_label(model_parameters.FASTENER_THREAD_SIZE + ":")
         self.p5_label.grid(row=6, column=0)
         self.p5_options = self.set_parameter_options(model_parameters.get_values(model_parameters.FASTENER_THREAD_SIZE))
         self.p5_options.grid(row=6, column=1, padx=20, pady=5, sticky= "nsew")
 
-        # time cycle
+        # time cycle settings
         self.cycle_header = ctk.CTkLabel(self, text="Time Cycle:", font=self.header_font)
         self.cycle_header.grid(row=7, column=0, pady=20)
         self.displayed_cycles_header = ctk.CTkLabel(self, text="Cycles to Display:", font=self.text_font)
         self.displayed_cycles_header.grid(row=8, column=0)
         # time cycle entry
         self.cycle_entry = ctk.CTkEntry(master=self, placeholder_text="time cycles", width=20)
-        self.cycle_entry.insert("0", "10000")
+        self.cycle_entry.insert("0", "200000")
         self.cycle_entry.grid(row=8, column=1, pady=5, sticky= "nsew")
 
-        # preload threshold
+        # preload threshold settings
         self.cycle_header = ctk.CTkLabel(self, text="Preload Loss Thresholds:", font=self.header_font)
         self.cycle_header.grid(row=9, column=0, pady=20)
         self.displayed_cycles_header_1 = ctk.CTkLabel(self, text="Threshold Marker 1:", font=self.text_font)
@@ -112,6 +115,7 @@ class PredictionFrame(ctk.CTkFrame):
     
     # handle events
     def checkbox_event(self):
+        '''Toggles the radio buttons on or off'''
         if (self.t2_enabled.get() == "off"):
             self.threshold_entry_2.configure(state="disabled", fg_color="#262729")
             self.threshold_entry_2.select_clear()
@@ -125,7 +129,9 @@ class PredictionFrame(ctk.CTkFrame):
             self.threshold_entry_3.configure(state="normal", fg_color="#343638")
 
     def run_prediction_button_event(self):
-        cycle_entry_str = self.cycle_entry.get()
+        '''Gets the selected options, applies it to the selected model, and updates the graph and report box with results'''
+        cycle_entry_str = self.cycle_entry.get() # cycles to display for the graph
+        # thresholds to calculate
         threshold_entry_str_1 = self.threshold_entry_1.get()
         threshold_entry_str_2 = self.threshold_entry_2.get()
         threshold_entry_str_3 = self.threshold_entry_3.get()
@@ -148,6 +154,7 @@ class PredictionFrame(ctk.CTkFrame):
             return
         
         # check threshold input
+        # default to 0 as fallback
         threshold_1 = 0
         threshold_2 = 0
         threshold_3 = 0
@@ -155,6 +162,7 @@ class PredictionFrame(ctk.CTkFrame):
         threshold_1 = self.get_threshold_value(threshold_entry_str_1)
         if (threshold_1 == 0):
             return
+        # thresolds 2 and 3 are optional
         if (self.t2_enabled.get() == "on"):
             threshold_2 = self.get_threshold_value(threshold_entry_str_2)
             if (threshold_2 == 0):
@@ -163,7 +171,8 @@ class PredictionFrame(ctk.CTkFrame):
             threshold_3 = self.get_threshold_value(threshold_entry_str_3)
             if (threshold_3 == 0):
                 return
-
+            
+        # update the selected model
         self.controller.update_model(self.p1_options._current_value,
                                      self.p2_options._current_value,
                                      self.p3_options._current_value, 
@@ -172,7 +181,7 @@ class PredictionFrame(ctk.CTkFrame):
                                      cycles,
                                      threshold_1, threshold_2, threshold_3)
         
-        
+        # generate report with results
         reportStr = self.get_report(threshold_1, threshold_2, threshold_3)
         
         self.parent.textbox.configure(state="normal", text_color="orange", border_color="#0E86D4")
@@ -180,19 +189,21 @@ class PredictionFrame(ctk.CTkFrame):
         self.parent.textbox.insert("0.0", reportStr)
         self.parent.textbox.configure(state="disabled")
         
+        # draw the updated plot
         plot.draw_plot(self.parent.plotframe)
 
     def get_threshold_value(self, threshold_entry_str):
-        threshold = -1
+        '''Gets an integer threshold value from string entry, returns -1 if error'''
+        threshold = -1 # default to -1 to indict error
         try:
-                threshold = int(re.search(r'\d+', threshold_entry_str).group())
+                threshold = int(re.search(r'\d+', threshold_entry_str).group()) # get the threshold value from string
         except:
                 self.parent.textbox.configure(state="normal", text_color="red", border_color="red")
                 self.parent.textbox.delete("0.0", "end")
                 self.parent.textbox.insert("0.0", "Non integer input detected for threshold\n")
                 self.parent.textbox.configure(state="disabled")
-                return threshold
-        
+                return threshold # if error, threshold is -1
+        # check range
         if (threshold < 1 or threshold > 100):
             self.parent.textbox.configure(state="normal", text_color="red", border_color="red")
             self.parent.textbox.delete("0.0", "end")
@@ -202,14 +213,15 @@ class PredictionFrame(ctk.CTkFrame):
         return threshold
 
     def get_report(self, threshold_1, threshold_2, threshold_3):
+        '''Creates a string report according to model results'''
         genTime = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         threshold_str_1 = "-Threshold 1 at " + str(threshold_1) + "% preload loss\n"
-        threshold_point_str = "\nPreload decay threshold 1 met at: " + str(self.controller.active_model.get_threshold_point(0)) + " hours" + " or " + str(math.floor(self.controller.active_model.get_threshold_point(0) / 24)) + " days\n"
+        threshold_point_str = "\nPreload decay threshold 1 times = seconds: " + str(self.controller.active_model.get_threshold_point(0)) + ", hours: " + str(math.floor(self.controller.active_model.get_threshold_point(0) / 60)) + ", days: " + str(math.floor(self.controller.active_model.get_threshold_point(0) / 24)) + "\n"
         
         if (self.controller.active_model.get_threshold_point(1)):
-            threshold_point_str += "Preload decay threshold 2 met at: " + str(self.controller.active_model.get_threshold_point(1)) + " hours" + " or " + str(math.floor(self.controller.active_model.get_threshold_point(1) / 24)) + " days\n"
+            threshold_point_str += "Preload decay threshold 2 times = seconds: " + str(self.controller.active_model.get_threshold_point(1)) + ", hours: " + str(math.floor(self.controller.active_model.get_threshold_point(1) / 60)) + ", days: " + str(math.floor(self.controller.active_model.get_threshold_point(1) / 24)) + "\n"
         if (self.controller.active_model.get_threshold_point(2)):
-            threshold_point_str += "Preload decay threshold 3 met at: " + str(self.controller.active_model.get_threshold_point(2)) + " hours" + " or " + str(math.floor(self.controller.active_model.get_threshold_point(2) / 24)) + " days\n"
+            threshold_point_str += "Preload decay threshold 3 times = seconds: " + str(self.controller.active_model.get_threshold_point(2)) + ", hours: " + str(math.floor(self.controller.active_model.get_threshold_point(2) / 60)) + ", days: " + str(math.floor(self.controller.active_model.get_threshold_point(2) / 24)) + "\n"
         
         if (threshold_2 < 1):
             threshold_str_2 = ""

@@ -2,6 +2,7 @@ import customtkinter as ctk
 import view.plot_update_helper as plot
 
 class PlotFrame(ctk.CTkFrame):
+    '''Frame to hold the plot'''
     def __init__(self, *args, **kwargs):
         super().__init__(*args,  **kwargs)
         self.grid_columnconfigure(0, weight=1)
