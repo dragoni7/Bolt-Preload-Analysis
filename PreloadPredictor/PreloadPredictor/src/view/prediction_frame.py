@@ -2,6 +2,7 @@ import customtkinter as ctk
 from controller.model_controller import ModelController
 import model.experimental_parameters as model_parameters
 import view.plot_update_helper as plot
+from view.widgets.spin_box import FloatSpinbox
 import tkinter
 from datetime import datetime
 import math
@@ -12,13 +13,16 @@ class PredictionFrame(ctk.CTkFrame):
     def __init__(self, parent, *args, **kwargs):
         super().__init__(*args,  **kwargs)
 
+        self.grid_columnconfigure((0, 3), weight=1)
+        self.grid_rowconfigure(0, weight=1)
+
         self.controller = ModelController.get_instance() # model controller instance
         # styling
         self.header_font = ctk.CTkFont(size=22, weight="bold", family="Proxima Nova")
         self.subheader_font = ctk.CTkFont(size=14, weight="bold", family="Monserrat")
         self.text_font = ctk.CTkFont(size=13, family="Monserrat")
         self.parent = parent
-        # vars the toggable additional thresholds
+        # vars for the toggable additional thresholds
         self.t2_enabled = tkinter.StringVar(self, "on")
         self.t3_enabled = tkinter.StringVar(self, "on")
 
@@ -70,9 +74,9 @@ class PredictionFrame(ctk.CTkFrame):
         self.displayed_cycles_header = ctk.CTkLabel(self, text="Cycles to Display:", font=self.text_font)
         self.displayed_cycles_header.grid(row=8, column=0)
         # time cycle entry
-        self.cycle_entry = ctk.CTkEntry(master=self, placeholder_text="time cycles", width=20)
-        self.cycle_entry.insert("0", "200000")
+        self.cycle_entry = FloatSpinbox(self, width=150, step_size=10000, min=1000, max=10000000)
         self.cycle_entry.grid(row=8, column=1, pady=5, sticky= "nsew")
+        self.cycle_entry.set(200000)
 
         # preload threshold settings
         self.cycle_header = ctk.CTkLabel(self, text="Preload Loss Thresholds:", font=self.header_font)
@@ -130,28 +134,11 @@ class PredictionFrame(ctk.CTkFrame):
 
     def run_prediction_button_event(self):
         '''Gets the selected options, applies it to the selected model, and updates the graph and report box with results'''
-        cycle_entry_str = self.cycle_entry.get() # cycles to display for the graph
+        cycles = self.cycle_entry.get() # cycles to display for the graph
         # thresholds to calculate
         threshold_entry_str_1 = self.threshold_entry_1.get()
         threshold_entry_str_2 = self.threshold_entry_2.get()
         threshold_entry_str_3 = self.threshold_entry_3.get()
-
-        # check cycle input
-        if (len(cycle_entry_str) < 7 and len(cycle_entry_str) > 0):
-            try:
-                cycles = int(re.search(r'\d+', cycle_entry_str).group())
-            except:
-                self.parent.textbox.configure(state="normal", text_color="red", border_color="red")
-                self.parent.textbox.delete("0.0", "end")
-                self.parent.textbox.insert("0.0", "Non integer input detected for cycles\n")
-                self.parent.textbox.configure(state="disabled")
-                return
-        else:
-            self.parent.textbox.configure(state="normal", text_color="red", border_color="red")
-            self.parent.textbox.delete("0.0", "end")
-            self.parent.textbox.insert("0.0", "Invalid cycles input length\n")
-            self.parent.textbox.configure(state="disabled")
-            return
         
         # check threshold input
         # default to 0 as fallback

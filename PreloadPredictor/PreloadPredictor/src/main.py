@@ -9,6 +9,7 @@ class Main:
             setup.run() # set up application data
             root = App()
             root.protocol("WM_DELETE_WINDOW", sys.exit)
+            root.resizable(width=False, height=False)
             root.mainloop()
         except Exception as e:
             print(str(e))

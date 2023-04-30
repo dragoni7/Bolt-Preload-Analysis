@@ -58,6 +58,7 @@ class ModelController:
         fig, ax = plt.subplots(facecolor="#242424")
         ax.plot(self._active_model.x_values, ylower, self._active_model.x_values, yupper, label=self._active_model.label)
         plt.ylim([0.0,100.0])
+        plt.xlim(left=0.0)
         ax.grid(axis = 'x')
         ax.axhline(y=threshold_1, color='r', linestyle='dashed')
         ax.plot([cycle_prediction_1], [threshold_1], 'o', color="r")
@@ -73,7 +74,7 @@ class ModelController:
         ax.tick_params(labelcolor='#F2F2F2')
         ax.set_facecolor('#eafff5')
         # labels
-        plt.xlabel("Hours", fontweight='bold', color='#F2F2F2')
+        plt.xlabel("Time(s)", fontweight='bold', color='#F2F2F2')
         plt.ylabel("% Force", fontweight='bold', color='#F2F2F2')
 
         self._active_model.insert_threshold_point(cycle_prediction_1.item(), 0)

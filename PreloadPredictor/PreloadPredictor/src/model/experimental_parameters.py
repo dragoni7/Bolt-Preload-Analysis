@@ -12,25 +12,29 @@ values = {
     SEALANT: {
         "BMS 5-45": float(1.0),
         "v2": float(4.0),
-        "none": float(0.1)
+        "none": float(1.0)
     },
     PLATE_MATERIAL: {
         "aluminum": float(1.0),
-        "CFRP": float(6.2)
+        "CFRP": float(6.2),
+        "NA": float(1.0)
     },
     BOLT_DIAMETER: {
         "v1": float(1.0),
         "v2": float(2.0),
-        "v3": float(2.5)
+        "v3": float(2.5),
+        "NA": float(1.0)
     },
     FASTENER_MATERIAL: {
         "steel": float(1.5),
-        "titanium": float(4.0)
+        "titanium": float(4.0),
+        "NA": float(1.0)
     },
     FASTENER_THREAD_SIZE: {
         "1/4in": float(1.1),
         "3/8in": float(1.2),
-        "1/2in": float(1.3)
+        "1/2in": float(1.3),
+        "NA": float(1.0)
     }
 }
 
