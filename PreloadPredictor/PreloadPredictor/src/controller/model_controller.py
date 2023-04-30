@@ -41,7 +41,7 @@ class ModelController:
         plt.close("all")
         self.active_model.clear_threshold_points() # clear previous threshold list
         self._active_model.x_values = np.arange(0.0, cycles - 0.5, 0.5) # step of 0.5
-        self._active_model.y_values = self._active_model.exp_model(p.values[p.SEALANT][p_A], p.values[p.PLATE_MATERIAL][p_B], p.values[p.BOLT_DIAMETER][p_C], p.values[p.FASTENER_MATERIAL][p_D], p.values[p.FASTENER_THREAD_SIZE][p_E])
+        self._active_model.y_values = self._active_model.exp_model(p.values[p.SEALANT][p_A], p.values[p.PLATE_MATERIAL][p_B], p.values[p.BOLT_ID][p_C], p.values[p.FASTENER_MATERIAL][p_D], p.values[p.FASTENER_THREAD_SIZE][p_E])
         
         cycle_prediction_1 = (np.abs(self._active_model.y_values - threshold_1)).argmin() * 0.5 # account for the step size
         cycle_prediction_2 = cycle_prediction_1

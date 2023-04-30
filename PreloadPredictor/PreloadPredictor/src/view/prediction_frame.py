@@ -51,9 +51,9 @@ class PredictionFrame(ctk.CTkFrame):
         self.p2_options.grid(row=3, column=1, padx=20, pady=5, sticky= "nsew")
 
         # bolt diameter
-        self.p3_label = self.set_parameter_label(model_parameters.BOLT_DIAMETER + ":")
+        self.p3_label = self.set_parameter_label(model_parameters.BOLT_ID + ":")
         self.p3_label.grid(row=4, column=0)
-        self.p3_options = self.set_parameter_options(model_parameters.get_values(model_parameters.BOLT_DIAMETER))
+        self.p3_options = self.set_parameter_options(model_parameters.get_values(model_parameters.BOLT_ID))
         self.p3_options.grid(row=4, column=1, padx=20, pady=5, sticky= "nsew")
 
         # fastener material
@@ -203,12 +203,12 @@ class PredictionFrame(ctk.CTkFrame):
         '''Creates a string report according to model results'''
         genTime = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         threshold_str_1 = "-Threshold 1 at " + str(threshold_1) + "% preload loss\n"
-        threshold_point_str = "\nPreload decay threshold 1 times = seconds: " + str(self.controller.active_model.get_threshold_point(0)) + ", hours: " + str(math.floor(self.controller.active_model.get_threshold_point(0) / 60)) + ", days: " + str(math.floor(self.controller.active_model.get_threshold_point(0) / 24)) + "\n"
+        threshold_point_str = "\nPreload decay threshold 1 times = seconds: " + str(self.controller.active_model.get_threshold_point(0)) + ", hours: " + str(math.floor(self.controller.active_model.get_threshold_point(0) / 60)) + ", days: " + str(round(self.controller.active_model.get_threshold_point(0) / 86400, 1)) + "\n"
         
         if (self.controller.active_model.get_threshold_point(1)):
-            threshold_point_str += "Preload decay threshold 2 times = seconds: " + str(self.controller.active_model.get_threshold_point(1)) + ", hours: " + str(math.floor(self.controller.active_model.get_threshold_point(1) / 60)) + ", days: " + str(math.floor(self.controller.active_model.get_threshold_point(1) / 24)) + "\n"
+            threshold_point_str += "Preload decay threshold 2 times = seconds: " + str(self.controller.active_model.get_threshold_point(1)) + ", hours: " + str(math.floor(self.controller.active_model.get_threshold_point(1) / 60)) + ", days: " + str(round(self.controller.active_model.get_threshold_point(1) / 86400, 1)) + "\n"
         if (self.controller.active_model.get_threshold_point(2)):
-            threshold_point_str += "Preload decay threshold 3 times = seconds: " + str(self.controller.active_model.get_threshold_point(2)) + ", hours: " + str(math.floor(self.controller.active_model.get_threshold_point(2) / 60)) + ", days: " + str(math.floor(self.controller.active_model.get_threshold_point(2) / 24)) + "\n"
+            threshold_point_str += "Preload decay threshold 3 times = seconds: " + str(self.controller.active_model.get_threshold_point(2)) + ", hours: " + str(math.floor(self.controller.active_model.get_threshold_point(2) / 60)) + ", days: " + str(round(self.controller.active_model.get_threshold_point(2) / 86400, 1)) + "\n"
         
         if (threshold_2 < 1):
             threshold_str_2 = ""

@@ -78,5 +78,5 @@ class PreloadDecayModel():
         c_new = self.c_C * p_C
         d_new = self.c_D * p_D
         
-        return (a_new*np.exp(b_new * self.x_values)) + ((c_new)*np.exp(d_new * self.x_values)) + p_E
+        return ((a_new)*np.exp(b_new * self.x_values)) + ((c_new)*np.exp(d_new * self.x_values)) + p_E + p_A + p_B
     
