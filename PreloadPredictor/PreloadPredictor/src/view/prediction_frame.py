@@ -74,7 +74,7 @@ class PredictionFrame(ctk.CTkFrame):
         self.displayed_cycles_header = ctk.CTkLabel(self, text="Cycles to Display:", font=self.text_font)
         self.displayed_cycles_header.grid(row=8, column=0)
         # time cycle entry
-        self.cycle_entry = FloatSpinbox(self, width=150, step_size=10000, min=1000, max=10000000)
+        self.cycle_entry = FloatSpinbox(self, width=150, step_size=20000, min=1000, max=10000000)
         self.cycle_entry.grid(row=8, column=1, pady=5, sticky= "nsew")
         self.cycle_entry.set(1200000)
 

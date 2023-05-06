@@ -36,7 +36,7 @@ class ModelController:
         '''Adds a new model to the list of models'''
         self._models.append(new_model)
 
-    def update_model(self, p_A, p_B, p_C, p_D, p_E, cycles=200000, threshold_1=50.0, threshold_2=50.0, threshold_3=50.0):
+    def update_model(self, p_A, p_B, p_C, p_D, p_E, cycles=1200000, threshold_1=50.0, threshold_2=50.0, threshold_3=50.0):
         '''Updates a models data according to user inputs'''
         plt.close("all")
         self.active_model.clear_threshold_points() # clear previous threshold list

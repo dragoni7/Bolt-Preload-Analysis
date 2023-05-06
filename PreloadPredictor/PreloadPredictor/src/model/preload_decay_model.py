@@ -8,8 +8,8 @@ class PreloadDecayModel():
         self._label = label # model label
         self._threshold_point = [None, None, None] # stores up to 3 threshold points of interest
         self._figure = None # plot of the model curve
-        self._x_values = np.arange(1.0) # x values
-        self._y_values = np.arange(1.0) # y values
+        self._x_values = np.arange(1.0, dtype=np.float64) # x values
+        self._y_values = np.arange(1.0, dtype=np.float64) # y values
         # coefficients for exp2 model
         self.c_A = c_A
         self.c_B = c_B
@@ -70,13 +70,14 @@ class PreloadDecayModel():
         self._figure = value
 
 
-    def exp_model(self, p_A, p_B, p_C, p_D, p_E):
-        '''Calculates the y values of the exp2 model, applying parameters to coefficients'''
-        # placeholder effects. Still need to determine the exact effect on the model
-        a_new = self.c_A * p_A
-        b_new = self.c_B * p_B
-        c_new = self.c_C * p_C
-        d_new = self.c_D * p_D
+    def exp_model(self, sealant_param, plate_material_param, bolt_type_param, fastener_mat_param, fastener_t_size_param):
+        '''Calculates the y values of the exp2 model, applying parameters to each coefficient'''
+
+        # repeated this modification for each parmeter
+        a_new = self.c_A * sealant_param[0]
+        b_new = self.c_B + sealant_param[1]
+        c_new = self.c_C * sealant_param[2]
+        d_new = self.c_D + sealant_param[3]
         
-        return ((a_new)*np.exp(b_new * self.x_values)) + ((c_new)*np.exp(d_new * self.x_values)) + p_E + p_A + p_B
+        return ((a_new)*np.exp(b_new * self.x_values)) + ((c_new)*np.exp(d_new * self.x_values))
     
