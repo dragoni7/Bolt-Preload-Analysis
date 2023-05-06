@@ -9,4 +9,4 @@ def draw_plot(self):
         if __canvas: __canvas.get_tk_widget().pack_forget()
         __canvas = FigureCanvasTkAgg(ModelController.get_instance().active_model.figure, master=self)
         __canvas.draw()
-        __canvas.get_tk_widget().grid(row=0, column=0, rowspan=5, columnspan=5, padx=15, pady=15, sticky="nsew")
+        __canvas.get_tk_widget().grid(row=0, column=0, rowspan=4, columnspan=5, padx=15, pady=15, sticky="nsew")
