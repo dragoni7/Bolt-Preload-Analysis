@@ -5,7 +5,7 @@ A MATLAB program was developed for creation of an exponential decay model based 
 
 MATLAB application:
 app folder: contains alpha prototype application code and resources used for developing the preload decay model.
-scripts: contains experimental script files created during early stages of project. These are unused.
+scripts: contains experimental script files created during early stages of project. These are unused intended as process documenting.
 
 Python application:
 source code for an interactable application showcasing different experimental parameters and their effect on preload loss.
